@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import "dotenv/config";
+import User from "./models/user.js";
 
 const app = express();
 
@@ -9,8 +10,24 @@ const MONGODB_URI = process.env.MONGODB_URI;
 
 app.use(express.json());
 
+// * Routes
+
 app.get("/", (req, res) => {
   res.json({ message: "simple-api" });
+});
+
+app.post("/users", async (req, res) => {
+  try {
+    const user = await User.create(req.body);
+    res.status(201).json(user);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+app.get("/users", async (req, res) => {
+  const users = await User.find();
+  res.json(users);
 });
 
 async function startServer() {
