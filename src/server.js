@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
 async function startServer() {
   try {
     await mongoose.connect(MONGODB_URI);
-    console.log("connected to MongoDB");
+    console.log("Connected to MongoDB");
   } catch (error) {
     console.error("MongoDB connection failed", error);
   }
