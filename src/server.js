@@ -30,6 +30,11 @@ app.get("/users", async (req, res) => {
   res.json(users);
 });
 
+app.get("/users/:id", async (req, res) => {
+  const user = await User.findById(req.params.id);
+  res.json(user);
+});
+
 async function startServer() {
   try {
     await mongoose.connect(MONGODB_URI);
