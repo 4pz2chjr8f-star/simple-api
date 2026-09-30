@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import "dotenv/config";
 import userRoutes from "./routes/userRoutes.js";
+import { errorHandler } from "./middleware/errorHandler.js";
 
 const app = express();
 
@@ -18,6 +19,10 @@ app.use("/users", userRoutes);
 app.get("/", (req, res) => {
   res.json({ message: "simple-api" });
 });
+
+// * Middleware for errorHandler
+
+app.use(errorHandler);
 
 async function startServer() {
   try {
