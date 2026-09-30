@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 
-export async function getUsers(req, res) {
+export async function getUsers(req, res, next) {
   try {
     const users = await User.find();
 
@@ -10,7 +10,7 @@ export async function getUsers(req, res) {
   }
 }
 
-export async function createUser(req, res) {
+export async function createUser(req, res, next) {
   try {
     const user = await User.create(req.body);
 
@@ -33,7 +33,7 @@ export async function getUser(req, res, next) {
   }
 }
 
-export async function updateUser(req, res) {
+export async function updateUser(req, res, next) {
   try {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, {
       returnDocument: "after",
@@ -48,7 +48,7 @@ export async function updateUser(req, res) {
   }
 }
 
-export async function deleteUser(req, res) {
+export async function deleteUser(req, res, next) {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
 
