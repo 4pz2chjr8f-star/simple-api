@@ -6,9 +6,7 @@ export async function getUsers(req, res) {
 
     res.json(users);
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
+    next(error);
   }
 }
 
@@ -18,11 +16,11 @@ export async function createUser(req, res) {
 
     res.status(201).json(user);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    next(error);
   }
 }
 
-export async function getUser(req, res) {
+export async function getUser(req, res, next) {
   try {
     const user = await User.findById(req.params.id);
     if (!user) {
@@ -31,7 +29,7 @@ export async function getUser(req, res) {
 
     res.json(user);
   } catch (error) {
-    res.status(400).json({ message: "Invalid user ID" });
+    next(error);
   }
 }
 
@@ -46,7 +44,7 @@ export async function updateUser(req, res) {
     }
     res.json(user);
   } catch (error) {
-    res.status(404).json({ message: "Invalid user ID" });
+    next(error);
   }
 }
 
@@ -60,6 +58,6 @@ export async function deleteUser(req, res) {
 
     res.status(204).end();
   } catch (error) {
-    res.status(400).json({ message: "Invalid user ID" });
+    next(error);
   }
 }
