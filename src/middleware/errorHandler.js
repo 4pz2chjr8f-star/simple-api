@@ -4,7 +4,13 @@ export function errorHandler(error, req, res, next) {
   }
 
   if (error.name === "ValidationError") {
-    return res.status(400).json({ message: error.message });
+    const errors = {};
+
+    for (const field in error.errors) {
+      errors[field] = error.errors[field].message;
+    }
+
+    return res.status(400).json({ message: "Validation failed", errors });
   }
   console.error(error);
 
