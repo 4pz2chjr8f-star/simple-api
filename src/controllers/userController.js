@@ -49,6 +49,23 @@ export async function updateUser(req, res, next) {
   }
 }
 
+export async function patchUser(req, res, next) {
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+      returnDocument: "after",
+      runValidators: true,
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: "User not found!" });
+    }
+
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
+}
+
 export async function deleteUser(req, res, next) {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
