@@ -35,10 +35,22 @@ export async function getUser(req, res, next) {
 
 export async function updateUser(req, res, next) {
   try {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-      returnDocument: "after",
-      runValidators: true,
-    });
+    const { name, email } = req.body;
+
+    if (name === undefined || email === undefined) {
+      return res
+        .status(400)
+        .json({ message: "PUT require both name and email" });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { name, email },
+      {
+        returnDocument: "after",
+        runValidators: true,
+      },
+    );
 
     if (!user) {
       return res.status(404).json({ message: "User not found!" });
@@ -51,6 +63,26 @@ export async function updateUser(req, res, next) {
 
 export async function patchUser(req, res, next) {
   try {
+    const allowedFields = ["name", "email"];
+
+    const fields = Object.keys(req.body);
+
+    if (fields.length === 0) {
+      return res
+        .status(400)
+        .json({ message: "PATCH require at least one field" });
+    }
+
+    const invalidFields = fields.filter(
+      (field) => !allowedFields.includes(field),
+    );
+
+    if (invalidFields.length > 0) {
+      return res
+        .status(400)
+        .json({ message: "Invalid fields", fields: invalidFields });
+    }
+
     const user = await User.findByIdAndUpdate(req.params.id, req.body, {
       returnDocument: "after",
       runValidators: true,
