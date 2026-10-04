@@ -4,7 +4,7 @@ export async function getUsers(req, res, next) {
   try {
     const users = await User.find();
 
-    res.json(users);
+    res.json({ data: users });
   } catch (error) {
     next(error);
   }
@@ -14,7 +14,7 @@ export async function createUser(req, res, next) {
   try {
     const user = await User.create(req.body);
 
-    res.status(201).json(user);
+    res.status(201).json({ data: user });
   } catch (error) {
     next(error);
   }
@@ -27,7 +27,7 @@ export async function getUser(req, res, next) {
       return res.status(404).json({ message: "User not found!" });
     }
 
-    res.json(user);
+    res.json({ data: user });
   } catch (error) {
     next(error);
   }
@@ -55,7 +55,7 @@ export async function updateUser(req, res, next) {
     if (!user) {
       return res.status(404).json({ message: "User not found!" });
     }
-    res.json(user);
+    res.json({ data: user });
   } catch (error) {
     next(error);
   }
@@ -92,7 +92,7 @@ export async function patchUser(req, res, next) {
       return res.status(400).json({ message: "User not found!" });
     }
 
-    res.json(user);
+    res.json({ data: user });
   } catch (error) {
     next(error);
   }
