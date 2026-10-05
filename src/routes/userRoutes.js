@@ -9,9 +9,11 @@ import {
   deleteUser,
 } from "../controllers/userController.js";
 
+import { validatePagination } from "../middleware/pagination.js";
+
 const router = express.Router();
 
-router.get("/", getUsers);
+router.get("/", validatePagination, getUsers);
 
 router.post("/", createUser);
 
