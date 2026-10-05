@@ -2,9 +2,23 @@ import User from "../models/User.js";
 
 export async function getUsers(req, res, next) {
   try {
-    const page = Number(req.query.page) || 1;
+    const page = req.query.page === undefined ? 1 : Number(req.query.page);
 
-    const limit = Math.min(Number(req.query.limit) || 10, 100);
+    if (page < 1) {
+      return res.status(400).json({ message: "Page must be at least 1" });
+    }
+
+    const limit = req.query.limit === undefined ? 10 : Number(req.query.limit);
+
+    if (limit < 1) {
+      return res.status(400).json({ message: "Limit should be at least 1" });
+    }
+
+    if (limit > 100) {
+      return res
+        .status(400)
+        .json({ message: "Limit cannot be greater than 100" });
+    }
 
     const skip = (page - 1) * limit;
 
