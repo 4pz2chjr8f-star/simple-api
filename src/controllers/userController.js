@@ -10,7 +10,11 @@ export async function getUsers(req, res, next) {
 
     const users = await User.find().skip(skip).limit(limit);
 
-    res.json({ data: users });
+    const total = await User.countDocuments();
+
+    const totalPages = Math.ceil(total / limit);
+
+    res.json({ data: users, pagination: { page, limit, total, totalPages } });
   } catch (error) {
     next(error);
   }
