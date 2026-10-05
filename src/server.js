@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import "dotenv/config";
 import userRoutes from "./routes/userRoutes.js";
 import { errorHandler } from "./middleware/errorHandler.js";
+import { requestLogger } from "./middleware/requestLogger.js";
 
 const app = express();
 
@@ -12,6 +13,7 @@ const MONGODB_URI = process.env.MONGODB_URI;
 // * Middlewares
 
 app.use(express.json());
+app.use(requestLogger);
 app.use("/api/users", userRoutes);
 
 // * Routes
