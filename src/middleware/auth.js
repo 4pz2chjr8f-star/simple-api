@@ -1,13 +1,25 @@
-export function auth(req, res, next) {
-  const apiKey = req.headers["x-api-key"];
+import jwt from "jsonwebtoken";
 
-  if (!apiKey) {
+export function auth(req, res, next) {
+  const authorization = req.headers.authorization;
+
+  if (!authorization) {
     return res.status(401).json({ message: "Authentication required" });
   }
 
-  if (apiKey != "my-secret-key") {
-    return res.status(401).json({ message: "Invalid API key" });
+  const [scheme, token] = authorization.split(" ");
+
+  if (scheme != "Bearer" || !token) {
+    return res.status(401).json({ message: "Invalid authorization header" });
   }
 
-  next();
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+
+    req.user = payload;
+
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: "Invalid or expired token" });
+  }
 }
