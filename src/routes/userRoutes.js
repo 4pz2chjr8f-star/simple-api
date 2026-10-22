@@ -27,6 +27,6 @@ router.put("/:id", auth, updateUser);
 
 router.patch("/:id", auth, patchUser);
 
-router.delete("/:id", auth, deleteUser);
+router.delete("/:id", auth, authorize("admin"), deleteUser);
 
 export default router;
