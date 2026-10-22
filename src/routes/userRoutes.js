@@ -13,9 +13,11 @@ import { validatePagination } from "../middleware/pagination.js";
 
 import { auth } from "../middleware/auth.js";
 
+import { authorize } from "../middleware/authorize.js";
+
 const router = express.Router();
 
-router.get("/", auth, validatePagination, getUsers);
+router.get("/", auth, authorize("admin"), validatePagination, getUsers);
 
 router.post("/", createUser);
 
