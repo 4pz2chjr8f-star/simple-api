@@ -1,5 +1,3 @@
-import { json } from "express";
-
 export function validatePagination(req, res, next) {
   const page = req.query.page === undefined ? 1 : Number(req.query.page);
 

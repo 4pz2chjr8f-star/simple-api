@@ -22,7 +22,11 @@ export async function createUser(req, res, next) {
   try {
     const user = await User.create(req.body);
 
-    res.status(201).json({ data: user });
+    const userResponse = user.toObject();
+
+    delete userResponse.password;
+
+    res.status(201).json({ data: userResponse });
   } catch (error) {
     next(error);
   }
