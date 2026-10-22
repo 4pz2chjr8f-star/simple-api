@@ -1,4 +1,4 @@
-import User from "../models/User.js";
+import User from "../models/user.js";
 
 export async function getUsers(req, res, next) {
   try {
@@ -20,7 +20,13 @@ export async function getUsers(req, res, next) {
 
 export async function createUser(req, res, next) {
   try {
-    const user = await User.create(req.body);
+    const { name, email, password } = req.body;
+
+    const user = await User.create({
+      name,
+      email,
+      password,
+    });
 
     const userResponse = user.toObject();
 
