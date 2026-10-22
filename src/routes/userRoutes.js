@@ -19,12 +19,12 @@ router.get("/", auth, validatePagination, getUsers);
 
 router.post("/", createUser);
 
-router.get("/:id", getUser);
+router.get("/:id", auth, getUser);
 
-router.put("/:id", updateUser);
+router.put("/:id", auth, updateUser);
 
-router.patch("/:id", patchUser);
+router.patch("/:id", auth, patchUser);
 
-router.delete("/:id", deleteUser);
+router.delete("/:id", auth, deleteUser);
 
 export default router;
